@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import {getCities} from '../api/cities.api'
+import {getCountiesYearMap} from '../api/cities.api'
 
 export function CitiesMap() {
     const [year, setYear] = useState(2000);
 
     useEffect(() => {
         async function loadCities(){
-            const cities = await getCities({year});
-            console.log(cities);
+            const cities = await getCountiesYearMap({year});
         }
         loadCities();
     }, [year]);
@@ -17,8 +16,9 @@ export function CitiesMap() {
         console.log(e.target.value)
     }
 
+
     return (
-        <main>
+        <div>
             <h1>Cities Map</h1>
                 <select onChange={handleChange} >
                     <option value="2000">2000</option>
@@ -46,6 +46,6 @@ export function CitiesMap() {
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
                 </select>
-        </main>
+        </div>
     )
 }   

@@ -1,4 +1,14 @@
-export const getCities = ({ year }) => {
+import axios from "axios";
+
+export const getCountiesName = () => {
+    return axios.get(`http://127.0.0.1:8000/cities/api/cities?Year=2000`)
+};
+
+export const getCountyData = ({ county }) => {
+    return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
+};
+
+export const getCountiesYearMap = ({ year }) => {
     var margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
     var chart_width = 1000 - margin.left - margin.right;
