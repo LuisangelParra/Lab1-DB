@@ -1,0 +1,58 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+#chart{
+  width: 100%;
+  max-width: 1000px;
+  background-color: #f7f7f7;
+  margin: 50px auto;
+}
+
+.black-border {
+  stroke: black; /* Cambiar el color del borde a negro */
+  stroke-width: 2; /* Ajustar el ancho del borde según tus preferencias */
+}
+
+#tooltip {
+  position: absolute;
+  width: 200px;
+  padding: 1%;
+  background-color: white;
+  border-radius: 5px;
+  pointer-events: none;
+  display: none;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.legendContainer {
+  color: #000000;
+  background-color: #fff;
+  border-width: 0.1px;
+  border-style: solid;
+  border-color: #000000;
+  padding: .5em;
+  border-radius: 5px;
+  opacity: 0.9;
+  position: absolute;
+  font-family: "Lato", sans-serif;
+  display: table;
+  margin:auto;
+  position:absolute;
+  top:0;
+  bottom:0;
+}
+
+.label{
+  font-size: 10px;
+}
+
+.axis {
+  font-size: 8px;
+}
+
+text{
+  padding: 50px;
+}
