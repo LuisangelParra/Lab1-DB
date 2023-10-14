@@ -5,7 +5,80 @@ export const getCountiesName = () => {
 };
 
 export const getCountyData = ({ county }) => {
-    return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
+
+    // set the dimensions and margins of the graph
+    var margin = { top: 10, right: 30, bottom: 30, left: 60 },
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+ 
+    
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+    
+
+    // return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
+
+    //Read the data
+    d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
+    .then(function (data) {
+        // Add X axis
+        var x = d3.scaleLinear()
+            .domain([2000, 2020])
+            .range([0, width]);
+         
+        // Add Y axis
+        var y = d3.scaleLinear()
+            .domain([0, 500000])
+            .range([height, 0]);
+
+        // Add the line
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function (d) { return x(d.Year) })
+
+                //Añaadir el valor de la media ignorando los valores nulos o cero
+                .y(function (d) {
+                    if (parseFloat(d.Average) !== 0) {
+                        return y(d.Average)
+                    } else {
+                        return null;
+                    }
+                })
+            )
+
+        // Add the points
+        svg
+            .append("g")
+            .selectAll("dot")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d) { return x(d.Year) })
+            .attr("cy", function (d) { return y(d.Average) })
+            .attr("r", 5)
+            .attr("fill", "#69b3a2")
+
+        // Add the X Axis
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // Add the Y Axis
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+    }); 
 };
 
 export const getCountiesYearMap = ({ year }) => {
@@ -46,17 +119,16 @@ export const getCountiesYearMap = ({ year }) => {
     d3.json(`http://127.0.0.1:8000/cities/api/cities?Year=${year}`).then(function (
         data
     ) {
-        var filteredMin = d3.min(data, function(d) {
-            
+        var filteredMin = d3.min(data, function (d) {
             if (parseFloat(d.Average) !== 0) {
                 return d.Average;
             } else {
                 return null;
             }
         });
-        
+
         // Filtrar los valores nulos
-        var min = d3.min(data, function(d) {
+        var min = d3.min(data, function (d) {
             if (d !== null) {
                 var value = parseFloat(d.Average);
                 return value;
@@ -129,7 +201,7 @@ export const getCountiesYearMap = ({ year }) => {
                         .style("left", coordinates[0] + 200 + "px")
                         .style("top", coordinates[1] - 30 + "px")
                         .style("display", "block")
-                        .html(function(a) {
+                        .html(function (a) {
                             var customContent = d.properties.value.state + " " + d.properties.value.county;
                             if (d.properties.value.Average == 0) {
                                 customContent += " No Data";
@@ -183,13 +255,13 @@ export const getCountiesYearMap = ({ year }) => {
             var threshold = 1e-10;
 
             // Filtra los elementos con Average que son mayores que el umbral.
-            var filteredData = data.filter(function(d) {
+            var filteredData = data.filter(function (d) {
                 var value = parseFloat(d.Average);
                 return Math.abs(value) > threshold;
             });
 
             // Calcula el valor mínimo en los datos filtrados.
-            var min = d3.min(filteredData, function(d) {
+            var min = d3.min(filteredData, function (d) {
                 return d.Average;
             });
 

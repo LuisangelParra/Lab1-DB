@@ -3,6 +3,7 @@ import {getCountiesName, getCountyData} from '../api/cities.api'
 import * as d3 from 'd3';
 
 export function CountieChart() {
+  const chartCountyRef = useRef();
   const [countyNames, setCountyNames] = useState([]);
   const [county, setCounty] = useState("Los Angeles County");
 
@@ -17,7 +18,6 @@ export function CountieChart() {
 
     async function loadCountyData() {
       const cont =  await getCountyData({county});
-      console.log(cont);
     }
     loadCountyData();
 
@@ -26,6 +26,7 @@ export function CountieChart() {
 
   const handleChange = (e) => {
     setCounty(e.target.value)
+    chartCountyRef
     console.log(e.target.value)
 }
 

@@ -9,6 +9,8 @@ body {
   margin: 50px auto;
 }
 
+
+
 .black-border {
   stroke: black; /* Cambiar el color del borde a negro */
   stroke-width: 2; /* Ajustar el ancho del borde según tus preferencias */
