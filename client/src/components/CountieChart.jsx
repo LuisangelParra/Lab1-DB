@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {getCountiesName, getCountyData} from '../api/cities.api'
+import React, { useEffect, useRef, useState } from "react";
+import { getCountiesName, getCountyData } from "../api/cities.api";
 
 export function CountieChart() {
   const chartCountyRef = useRef();
@@ -8,27 +8,28 @@ export function CountieChart() {
 
   useEffect(() => {
     async function loadCountiesNames() {
-      const counties =  await getCountiesName();
+      const counties = await getCountiesName();
       const keys = Object.keys(counties.data);
-      const names = keys.map(key => counties.data[key].RegionName + " " + counties.data[key].StateName);
+      const names = keys.map(
+        (key) =>
+          counties.data[key].RegionName + " " + counties.data[key].StateName
+      );
       setCountyNames(names);
     }
     loadCountiesNames();
 
     async function loadCountyData() {
-      const cont =  await getCountyData({county, chartCountyRef});
+      const cont = await getCountyData({ county, chartCountyRef });
     }
     loadCountyData();
-
   }, [county]);
 
-
   const handleChange = (e) => {
-    setCounty(e.target.value)
-    console.log(e.target.value)
-}
+    setCounty(e.target.value);
+    console.log(e.target.value);
+  };
 
-  return(
+  return (
     <div>
       <h1>County Chart</h1>
       <svg ref={chartCountyRef} width={400} height={400} ></svg>
@@ -39,8 +40,6 @@ export function CountieChart() {
           </option>
         ))}
       </select>
-      
     </div>
   );
-
-};
+}

@@ -1,6 +1,7 @@
 import {CitiesMap} from '../components/CitiesMap'
 import {CountieChart} from '../components/CountieChart';
 import '../styles/tooplate.css'
+import {PieChartSales} from '../components/PieChartSales';
 
 export function CitiesPage() {
     return (
