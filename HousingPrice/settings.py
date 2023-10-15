@@ -84,8 +84,8 @@ DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": "HousingPriceDB",
-        "USER": "luis",
-        "PASSWORD": "1409luis",
+        "USER": "lofo",
+        "PASSWORD": "lofo",
         "HOST": "localhost",
         "PORT": "1433",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
