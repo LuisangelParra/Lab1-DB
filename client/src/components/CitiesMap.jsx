@@ -47,7 +47,7 @@ export function CitiesMap() {
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
                 </select>
-            <svg ref={mapCountiesRef} width={880} height={700} ></svg>
+            <svg ref={mapCountiesRef} width={1000} height={700} ></svg>
         </div>
     )
 }   

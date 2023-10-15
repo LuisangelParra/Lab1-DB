@@ -107,7 +107,7 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
         });
     }
 
-    var path = d3.geoPath().projection(scale(0.8, chart_width, chart_height));
+    var path = d3.geoPath().projection(scale(0.85, chart_width, chart_height));
 
     var countries = [];
 
