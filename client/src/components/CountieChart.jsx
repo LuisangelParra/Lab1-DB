@@ -1,23 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {getCountiesName, getCountyData} from '../api/cities.api'
-import * as d3 from 'd3';
 
 export function CountieChart() {
   const chartCountyRef = useRef();
   const [countyNames, setCountyNames] = useState([]);
-  const [county, setCounty] = useState("Los Angeles County");
+  const [county, setCounty] = useState("Los Angeles County CA");
 
   useEffect(() => {
     async function loadCountiesNames() {
       const counties =  await getCountiesName();
       const keys = Object.keys(counties.data);
-      const names = keys.map(key => counties.data[key].RegionName);
+      const names = keys.map(key => counties.data[key].RegionName + " " + counties.data[key].StateName);
       setCountyNames(names);
     }
     loadCountiesNames();
 
     async function loadCountyData() {
-      const cont =  await getCountyData({county});
+      const cont =  await getCountyData({county, chartCountyRef});
     }
     loadCountyData();
 
@@ -26,13 +25,13 @@ export function CountieChart() {
 
   const handleChange = (e) => {
     setCounty(e.target.value)
-    chartCountyRef
     console.log(e.target.value)
 }
 
   return(
     <div>
       <h1>County Chart</h1>
+      <svg ref={chartCountyRef} width={800} height={400} ></svg>
       <select onChange={handleChange}>
         {countyNames.map((county, index) => (
           <option key={index} value={county}>
@@ -40,6 +39,7 @@ export function CountieChart() {
           </option>
         ))}
       </select>
+      
     </div>
   );
 

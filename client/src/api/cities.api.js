@@ -4,84 +4,92 @@ export const getCountiesName = () => {
     return axios.get(`http://127.0.0.1:8000/cities/api/cities?Year=2000`)
 };
 
-export const getCountyData = ({ county }) => {
+export const getCounty = ({ county }) => {
+    return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
+
+};
+
+export const getCountyData = ({ county, chartCountyRef }) => {
 
     // set the dimensions and margins of the graph
     var margin = { top: 10, right: 30, bottom: 30, left: 60 },
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
- 
+
+
+    const svg = d3.select(chartCountyRef.current);
     
+    svg.selectAll("*").remove();
+ 
 
     // append the svg object to the body of the page
-    var svg = d3.select("#chart")
+    svg.select("#my_dataviz")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-    
+
 
     // return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
 
+    //Separar string county por espacio
+    var words = county.split(" ");
+    var stateAbbreviation = words[words.length - 1];
+    county = county.replace(" " + stateAbbreviation, "");
+    var stateName = stateAbbreviation
+
     //Read the data
-    d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
-    .then(function (data) {
-        // Add X axis
-        var x = d3.scaleLinear()
-            .domain([2000, 2020])
-            .range([0, width]);
-         
-        // Add Y axis
-        var y = d3.scaleLinear()
-            .domain([0, 500000])
-            .range([height, 0]);
+    d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}&StateName=${stateName}`)
+        .then(function (data) {
+            console.log(data)
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([2000, 2023])
+                .range([0, width]);
 
-        // Add the line
-        svg.append("path")
-            .datum(data)
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 1.5)
-            .attr("d", d3.line()
-                .x(function (d) { return x(d.Year) })
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([0, d3.max(data, function (d) { return + d.Average; })])
+                .range([height, 0]);
 
-                //Añaadir el valor de la media ignorando los valores nulos o cero
-                .y(function (d) {
-                    if (parseFloat(d.Average) !== 0) {
-                        return y(d.Average)
-                    } else {
-                        return null;
-                    }
-                })
-            )
+            // Add the line
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.Year) })
 
-        // Add the points
-        svg
-            .append("g")
-            .selectAll("dot")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d) { return x(d.Year) })
-            .attr("cy", function (d) { return y(d.Average) })
-            .attr("r", 5)
-            .attr("fill", "#69b3a2")
+                    .y(function (d) { return y(d.Average) })
+                )
 
-        // Add the X Axis
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            // Add the points
+            svg
+                .append("g")
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) { return x(d.Year) })
+                .attr("cy", function (d) { return y(d.Average) })
+                .attr("r", 5)
+                .attr("fill", "#69b3a2")
 
-        // Add the Y Axis
-        svg.append("g")
-            .call(d3.axisLeft(y));
+            // Add the X Axis
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
 
-    }); 
+            // Add the Y Axis
+            svg.append("g")
+                .call(d3.axisLeft(y));
+        });
 };
 
-export const getCountiesYearMap = ({ year }) => {
+export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
     var margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
     var chart_width = 1000 - margin.left - margin.right;
@@ -104,14 +112,12 @@ export const getCountiesYearMap = ({ year }) => {
 
     var countries = [];
 
-    var svg = d3.select("#chart").select("svg");
+    var svg = d3.select(mapCountiesRef.current);
+    svg.select("#chart").select("svg");
 
-    if (!svg.empty()) {
-        svg.remove();
-    }
+    svg.selectAll("*").remove();
 
-    svg = d3
-        .select("#chart")
+    svg.select("#chart")
         .append("svg")
         .attr("width", chart_width)
         .attr("height", chart_height);

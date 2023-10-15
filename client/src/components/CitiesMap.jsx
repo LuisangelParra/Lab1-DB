@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {getCountiesYearMap} from '../api/cities.api'
 
 export function CitiesMap() {
+    const mapCountiesRef = useRef();
     const [year, setYear] = useState(2000);
 
     useEffect(() => {
         async function loadCities(){
-            const cities = await getCountiesYearMap({year});
+            const cities = await getCountiesYearMap({year, mapCountiesRef});
         }
         loadCities();
     }, [year]);
@@ -19,6 +20,7 @@ export function CitiesMap() {
 
     return (
         <div>
+            
             <h1>Cities Map</h1>
                 <select onChange={handleChange} >
                     <option value="2000">2000</option>
@@ -46,6 +48,7 @@ export function CitiesMap() {
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
                 </select>
+            <svg ref={mapCountiesRef} width={1000} height={700} ></svg>
         </div>
     )
 }   

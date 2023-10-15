@@ -9,4 +9,4 @@ class CityViewSet(viewsets.ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields  = ['RegionID','RegionName','Year']
+    filterset_fields  = ['RegionID','RegionName','Year','StateName']
