@@ -6,7 +6,6 @@ export const getCountiesName = () => {
 
 export const getCounty = ({ county }) => {
     return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
-
 };
 
 export const getCountyData = ({ county, chartCountyRef }) => {
