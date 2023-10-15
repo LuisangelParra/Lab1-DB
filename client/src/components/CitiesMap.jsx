@@ -20,7 +20,6 @@ export function CitiesMap() {
 
     return (
         <div>
-            
             <h1>Cities Map</h1>
                 <select onChange={handleChange} >
                     <option value="2000">2000</option>
