@@ -50,7 +50,7 @@ body {
 
 .item1 {
   grid-column: span 2;
-  background-color: #ff5733;
+  background-color: #255262;
 }
 
 footer {
@@ -60,4 +60,32 @@ footer {
   padding: 10px;
   border-radius: 10px;
   margin-top: 20px;
+}
+
+.container {
+  background-color: #255262;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 20px;
+}
+
+.select-box {
+  padding: 5px;
+  font-size: 17px;
+  text-align: center;
+  border: 3px solid #ccc;
+  border-radius: 5px;
+  width: 50%;
+  margin: 0 0 20px;
+}
+
+.map {
+  width: 100%;
+  height: auto;
 }

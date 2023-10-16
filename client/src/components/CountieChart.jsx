@@ -33,7 +33,7 @@ export function CountieChart() {
     <div>
       <h1>County Chart</h1>
       <svg ref={chartCountyRef} width={400} height={400} ></svg>
-      <select onChange={handleChange}>
+      <select className="select-box" onChange={handleChange}>
         {countyNames.map((county, index) => (
           <option key={index} value={county}>
             {county}

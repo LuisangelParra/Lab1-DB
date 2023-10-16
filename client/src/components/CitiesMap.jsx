@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import {getCountiesYearMap} from '../api/cities.api'
+import '../styles/tooplate.css'
 
 export function CitiesMap() {
     const mapCountiesRef = useRef();
@@ -21,7 +22,7 @@ export function CitiesMap() {
     return (
         <div>
             <h1>Cities Map</h1>
-                <select onChange={handleChange} >
+                <select className="select-box" onChange={handleChange}>
                     <option value="2000">2000</option>
                     <option value="2001">2001</option>
                     <option value="2002">2002</option>

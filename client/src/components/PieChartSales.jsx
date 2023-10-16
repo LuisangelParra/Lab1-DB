@@ -5,6 +5,7 @@ import {
   getStateData,
   getStateChartData,
 } from "../api/sales.api";
+import '../styles/tooplate.css'
 
 export function PieChartSales() {
   const chartStateRef = useRef();
@@ -63,14 +64,14 @@ export function PieChartSales() {
   return (
     <div>
       <h1>Pie Chart</h1>
-      <select onChange={handleChange}>
+      <select className="select-box" onChange={handleChange}>
         {stateNames.map((state, index) => (
           <option key={index} value={state}>
             {state}
           </option>
         ))}
       </select>
-      <select onChange={handleChange2}>
+      <select className="select-box" onChange={handleChange2}>
         {stateYears.map((year, index) => (
           <option key={index} value={year}>
             {year}
