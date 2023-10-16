@@ -63,7 +63,7 @@ a:hover {
 .tooltip2:hover::after {
   font-family: Arial, sans-serif;
   font-size: 1.3em;
-  content: "Este grafico muestra a medida de los años el promedio por cada Condado.";
+  content: "Este grafico muestra el precio promedio de una vivienda por año de cada Condado.";
   text-align: center;
   background-color: rgb(0, 155, 148); /* Cambia el fondo del tooltip */
   color: #fff; /* Cambia el color del texto */
