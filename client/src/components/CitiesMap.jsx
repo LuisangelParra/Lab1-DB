@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useEffect, useState, useRef } from "react";
 import { getCountiesYearMap } from "../api/cities.api";
+=======
+import { useEffect, useState, useRef } from 'react';
+import {getCountiesYearMap} from '../api/cities.api'
+import '../styles/tooplate.css'
+>>>>>>> 72da0c25067349ce0235b555f16c3674b0b86123
 
 export function CitiesMap() {
   const mapCountiesRef = useRef();

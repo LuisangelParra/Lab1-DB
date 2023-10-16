@@ -5,6 +5,7 @@ import {
   getStateData,
   getStateChartData,
 } from "../api/sales.api";
+import '../styles/tooplate.css'
 
 export function PieChartSales() {
   const chartStateRef = useRef();

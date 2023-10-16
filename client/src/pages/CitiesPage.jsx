@@ -20,7 +20,7 @@ export function CitiesPage() {
                     <CountieChart />
                 </div>
                 <div className="grid-item">
-                    <PieChartSales />
+                    <PieChartSales/>
                 </div>
             </div>
             <footer>&copy; 2023 - Todos los derechos reservados</footer>
