@@ -8,6 +8,163 @@ export const getCounty = ({ county }) => {
     return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
 };
 
+export const getCountyData2 = ({ county, county2, multieBarChartRef }) => {
+    // set the dimensions and margins of the graph
+    var margin = 100,
+        width = 600 - margin,
+        height = 500 - margin;
+
+    const svg = d3.select(multieBarChartRef.current);
+
+    svg.selectAll("*").remove();
+
+    // append the svg object to the body of the page
+    svg.select("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+
+    //Separar string county por espacio
+    var words = county.split(" ");
+    var stateAbbreviation = words[words.length - 1];
+    county = county.replace(" " + stateAbbreviation, "");
+    var stateName = stateAbbreviation
+
+    //Separar string county por espacio
+    var words2 = county2.split(" ");
+    var stateAbbreviation2 = words2[words2.length - 1];
+    county2 = county2.replace(" " + stateAbbreviation2, "");
+    var stateName2 = stateAbbreviation2
+
+    d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}&StateName=${stateName}`)
+        .then(function (data) {
+            d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county2}&StateName=${stateName2}`)
+                .then(function (data2) {
+                    // Add X axis
+                    var x = d3.scaleLinear()
+                        .domain([2000, 2023])
+                        .range([0, width])
+
+                    // Add Y axis
+                    var y = d3.scaleLinear()
+                        .domain([0, d3.max(data, function (d) { return + d.Average; })])
+                        .range([height, 0]);
+
+                    // Add a second Y axis for the second dataset (if the scale is different)
+                    var y2 = d3.scaleLinear()
+                        .domain([0, d3.max(data2, function (d) { return +d.Average; })])
+                        .range([height, 0]);
+
+                    // X label
+                    svg.append('text')
+                        .attr('x', width / 2 + 70)
+                        .attr('y', height - 15 + 150)
+                        .attr('text-anchor', 'middle')
+                        .attr("fill", "white")
+                        .style('font-family', 'Helvetica')
+                        .style('font-size', 12)
+                        .text('Year');
+
+                    // Y label
+                    svg.append('text')
+                        .attr('text-anchor', 'middle')
+                        .attr("fill", "white")
+                        .attr('transform', 'translate(10,' + (height - 100) + ')rotate(-90)')
+                        .style('font-family', 'Helvetica')
+                        .style('font-size', 12)
+                        .text('Price');
+
+                    var xFormat = d3.format(".0f");
+                    // Add the X Axis
+                    svg.append("g")
+                        .attr("transform", "translate(" + 70 + "," + (height + 100) + ")")
+                        .call(d3.axisBottom(x).tickFormat(xFormat))
+
+                    // Add the Y Axis
+                    svg.append("g")
+                        .attr("transform", "translate(" + 70 + "," + (100) + ")")
+                        .call(d3.axisLeft(y));
+
+                    // Add the line
+                    var line = d3.line()
+                        .x(function (d) { return x(d.Year); })
+                        .y(function (d) { return y(d.Average); })
+                        .curve(d3.curveMonotoneX)
+
+                    // Add the line for the second dataset
+                    var line2 = d3.line()
+                        .x(function (d) { return x(d.Year); })
+                        .y(function (d) { return y2(d.Average); })
+                        .curve(d3.curveMonotoneX);
+
+                    svg.append("path")
+                        .datum(data)
+                        .attr("class", "line")
+                        .attr("transform", "translate(" + 70 + "," + 200 + ")")
+                        .attr("d", line)
+                        .style("fill", "none")
+                        .style("stroke", "#00234b")
+                        .style("stroke-width", "2");
+
+                    svg.append("path")
+                        .datum(data2)
+                        .attr("class", "line2") // You can define a new CSS class for the second line
+                        .attr("transform", "translate(" + 70 + "," + 200 + ")")
+                        .attr("d", line2)
+                        .style("fill", "none")
+                        .style("stroke", "#00234b") // Change the line color
+                        .style("stroke-width", "2");
+
+
+                    // Add the points
+
+
+                    svg.append('g')
+                        .selectAll("dot")
+                        .data(data)
+                        .enter()
+                        .append("circle")
+                        .attr("cx", function (d) { return x(d.Year); })
+                        .attr("cy", function (d) { return y(d.Average); })
+                        .attr("r", 5)
+                        .attr("transform", "translate(" + 70 + "," + 200 + ")")
+                        .style("fill", "#f3b24a");
+
+                    // Add the points for the second dataset
+                    svg.append('g')
+                        .selectAll("dot")
+                        .data(data2)
+                        .enter()
+                        .append("circle")
+                        .attr("cx", function (d) { return x(d.Year); })
+                        .attr("cy", function (d) { return y2(d.Average); })
+                        .attr("r", 5)
+                        .attr("transform", "translate(" + 70 + "," + 200 + ")")
+                        .style("fill", "#04a9f7"); // Change the point color
+
+                    console.log(data.RegionName)
+                    // Handmade legend
+                    svg.append("circle").attr("cx", 420).attr("cy", 100).attr("r", 6).style("fill", "#f3b24a")
+                    svg.append("circle").attr("cx", 420).attr("cy", 120).attr("r", 6).style("fill", "#04a9f7")
+                    svg.append("text")
+                        .attr("x", 430)
+                        .attr("y", 100)
+                        .style("fill", "white")
+                        .text(data[0].RegionName) // Concatenate with the region name
+                        .style("font-size", "15px")
+                        .attr("alignment-baseline", "middle");
+                    svg.append("text")
+                        .attr("x", 430)
+                        .attr("y", 120)
+                        .style("fill", "white")
+                        .text(data2[0].RegionName)
+                        .style("font-size", "15px")
+                        .attr("alignment-baseline", "middle")
+
+                });
+        });
+};
+
 export const getCountyData = ({ county, chartCountyRef }) => {
 
     // set the dimensions and margins of the graph
@@ -40,7 +197,6 @@ export const getCountyData = ({ county, chartCountyRef }) => {
     //Read the data
     d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}&StateName=${stateName}`)
         .then(function (data) {
-            console.log(data.y)
             // Add X axis
             var x = d3.scaleLinear()
                 .domain([2000, 2023])
@@ -56,7 +212,7 @@ export const getCountyData = ({ county, chartCountyRef }) => {
                 .attr('x', width / 2 + 70)
                 .attr('y', height - 15 + 150)
                 .attr('text-anchor', 'middle')
-                .attr("fill", "white") 
+                .attr("fill", "white")
                 .style('font-family', 'Helvetica')
                 .style('font-size', 12)
                 .text('Year');
@@ -65,15 +221,15 @@ export const getCountyData = ({ county, chartCountyRef }) => {
             svg.append('text')
                 .attr('text-anchor', 'middle')
                 .attr("fill", "white")
-                .attr('transform', 'translate(10,' + (height-100) + ')rotate(-90)')
+                .attr('transform', 'translate(10,' + (height - 100) + ')rotate(-90)')
                 .style('font-family', 'Helvetica')
                 .style('font-size', 12)
                 .text('Price');
-            
+
             var xFormat = d3.format(".0f");
             // Add the X Axis
             svg.append("g")
-                .attr("transform", "translate(" + 70 + "," + (height+100) + ")")
+                .attr("transform", "translate(" + 70 + "," + (height + 100) + ")")
                 .call(d3.axisBottom(x).tickFormat(xFormat))
 
             // Add the Y Axis
@@ -229,7 +385,7 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
                 .on("mouseover", function (d) {
                     var coordinates = [];
                     coordinates = d3.mouse(this);
-                    
+
                     d3.select("#tooltip")
                         .style("background-color", "rgb(255, 247, 188)")
                         .style("opacity", "0.8")
