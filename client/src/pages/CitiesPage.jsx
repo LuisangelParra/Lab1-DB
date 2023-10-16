@@ -13,16 +13,21 @@ export function CitiesPage() {
             </a>
         </div>
             <div className="grid-container">
-                <div className="grid-item item1">
+                <div className="grid-item item1 tooltip">
                     <CitiesMap />
                 </div>
-                <div className="grid-item">
+                <div className="grid-item tooltip2">
                     <CountieChart />
                 </div>
                 <div className="grid-item">
                     <PieChartSales/>
                 </div>
             </div>
+            <footer>
+            <a href='https://www.zillow.com/research/data/'>
+                Zillow Research Data
+            </a>
+            </footer>
             <footer>&copy; 2023 - Todos los derechos reservados</footer>
     </main>
     );

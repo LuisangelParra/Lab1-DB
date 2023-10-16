@@ -22,12 +22,70 @@ body {
   margin: 20px;
 }
 
+a {
+  text-decoration: none; /* Elimina el subrayado predeterminado */
+  color: #0073e6; /* Color del enlace */
+}
+
+a:hover {
+  text-decoration: underline; /* Subrayado al pasar el mouse */
+}
+
 .tm-site-title {
   text-transform: uppercase;
   font-size: 1.5rem;
   color: #ffffff;
   letter-spacing: 2px;
   margin: 0;
+}
+
+.tooltip {
+  display: inline;
+  cursor: pointer;
+}
+
+.tooltip:hover::after {
+  font-family: Arial, sans-serif;
+  font-size: 1.3em;
+  content: "En general, el análisis de precios de viviendas en condados de EE. UU. muestra una tendencia de aumento a lo largo del tiempo. La mayoría de los condados mantienen una estabilidad de precios, con pocos experimentando cambios significativos. Esto podría relacionarse con factores económicos y demanda constante en las áreas. Investigar las razones detrás de los cambios y realizar análisis geoespaciales puede proporcionar más perspicacia.";
+  position: absolute;
+  text-align: justify;
+  background-color: #2e3e4e; /* Cambia el fondo del tooltip */
+  color: #fff; /* Cambia el color del texto */
+  padding: 10px; /* Aumenta el espacio alrededor del texto */
+  border-radius: 5px;
+  left: 1500px; /* Ajusta la posición horizontal */
+  top: 300px; /* Ajusta la posición vertical */
+  right: 80px;
+  z-index: 1;
+}
+
+.tooltip2:hover::after {
+  font-family: Arial, sans-serif;
+  font-size: 1.3em;
+  content: "Este grafico muestra a medida de los años el promedio por cada Condado.";
+  text-align: center;
+  background-color: rgb(0, 155, 148); /* Cambia el fondo del tooltip */
+  color: #fff; /* Cambia el color del texto */
+  padding: 5px; /* Aumenta el espacio alrededor del texto */
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.tooltip3:hover::after {
+  font-family: Arial, sans-serif;
+  font-size: 1.3em;
+  content: ".";
+  position: absolute;
+  text-align: justify;
+  background-color: #2e3e4e; /* Cambia el fondo del tooltip */
+  color: #fff; /* Cambia el color del texto */
+  padding: 10px; /* Aumenta el espacio alrededor del texto */
+  border-radius: 5px;
+  left: 1500px; /* Ajusta la posición horizontal */
+  top: 300px; /* Ajusta la posición vertical */
+  right: 80px;
+  z-index: 1;
 }
 
 .grid-container {
@@ -40,9 +98,6 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
-
-
 
 .grid-item {
   display: flex;
