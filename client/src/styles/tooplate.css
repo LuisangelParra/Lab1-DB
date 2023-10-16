@@ -11,9 +11,11 @@ body {
 }
 
 .navbar-brand {
-  display: block;
+  display: flex;
   width: auto;
+  height: 40px;
   align-items: center;
+  justify-content: center;
   background-color: #2e3e4e;
   border-radius: 8px;
   padding: 10px;
@@ -21,13 +23,11 @@ body {
 }
 
 .tm-site-title {
-  display: block;
   text-transform: uppercase;
-  text-align: center;
   font-size: 1.5rem;
-  margin-left: 1rem;
   color: #ffffff;
   letter-spacing: 2px;
+  margin: 0;
 }
 
 .grid-container {
