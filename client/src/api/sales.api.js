@@ -26,6 +26,7 @@ export const getStateChartData = ({ state, year, chartStateRef }) => {
                     cityCounts[d.City] = 1;
                 }
             });
+            
             const cityData = Object.keys(cityCounts).map(city => ({
                 city: city,
                 cantidad: cityCounts[city],

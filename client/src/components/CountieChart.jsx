@@ -31,15 +31,23 @@ export function CountieChart() {
 
   return (
     <div>
-      <h1>County Chart</h1>
-      <svg ref={chartCountyRef} width={400} height={400} ></svg>
-      <select onChange={handleChange}>
-        {countyNames.map((county, index) => (
-          <option key={index} value={county}>
-            {county}
-          </option>
-        ))}
-      </select>
+      <div>
+        <h1>County Chart</h1>
+      </div>
+      <div>
+        <svg ref={chartCountyRef} width={600} height={600}></svg>
+      </div>
+      <div>
+        <span className="custom-dropdown big">
+          <select onChange={handleChange}>
+            {countyNames.map((county, index) => (
+              <option key={index} value={county}>
+                {county}
+              </option>
+            ))}
+          </select>
+        </span>
+      </div>
     </div>
   );
 }

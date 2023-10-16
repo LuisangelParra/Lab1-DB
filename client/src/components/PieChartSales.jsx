@@ -62,22 +62,32 @@ export function PieChartSales() {
 
   return (
     <div>
-      <h1>Pie Chart</h1>
-      <select onChange={handleChange}>
-        {stateNames.map((state, index) => (
-          <option key={index} value={state}>
-            {state}
-          </option>
-        ))}
-      </select>
-      <select onChange={handleChange2}>
-        {stateYears.map((year, index) => (
-          <option key={index} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
-      <svg ref={chartStateRef} width={600} height={600}></svg>
+      <div>
+        <h1>Pie Chart</h1>
+      </div>
+      <div>
+        <svg ref={chartStateRef} width={600} height={600}></svg>
+      </div>
+      <div>
+        <span className="custom-dropdown big">
+          <select onChange={handleChange}>
+            {stateNames.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+        </span>
+        <span className="custom-dropdown big">
+          <select onChange={handleChange2}>
+            {stateYears.map((year, index) => (
+              <option key={index} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </span>
+      </div>
     </div>
   );
 }

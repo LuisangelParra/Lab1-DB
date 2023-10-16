@@ -11,24 +11,21 @@ export const getCounty = ({ county }) => {
 export const getCountyData = ({ county, chartCountyRef }) => {
 
     // set the dimensions and margins of the graph
-    var margin = { top: 10, right: 30, bottom: 30, left: 60 },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+    var margin = 100,
+        width = 600 - margin,
+        height = 500 - margin;
 
 
     const svg = d3.select(chartCountyRef.current);
-    
+
     svg.selectAll("*").remove();
- 
+
 
     // append the svg object to the body of the page
-    svg.select("#my_dataviz")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+    svg.select("svg")
+        .attr("width", width)
+        .attr("height", height)
         .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
 
 
     // return axios.get(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}`)
@@ -39,52 +36,85 @@ export const getCountyData = ({ county, chartCountyRef }) => {
     county = county.replace(" " + stateAbbreviation, "");
     var stateName = stateAbbreviation
 
+
     //Read the data
     d3.json(`http://127.0.0.1:8000/cities/api/cities?RegionName=${county}&StateName=${stateName}`)
         .then(function (data) {
-            console.log(data)
+            console.log(data.y)
             // Add X axis
             var x = d3.scaleLinear()
                 .domain([2000, 2023])
-                .range([0, width]);
+                .range([0, width])
 
             // Add Y axis
             var y = d3.scaleLinear()
                 .domain([0, d3.max(data, function (d) { return + d.Average; })])
                 .range([height, 0]);
 
+            // X label
+            svg.append('text')
+                .attr('x', width / 2 + 70)
+                .attr('y', height - 15 + 150)
+                .attr('text-anchor', 'middle')
+                .attr("fill", "white") 
+                .style('font-family', 'Helvetica')
+                .style('font-size', 12)
+                .text('Year');
+
+            // Y label
+            svg.append('text')
+                .attr('text-anchor', 'middle')
+                .attr("fill", "white")
+                .attr('transform', 'translate(10,' + (height-100) + ')rotate(-90)')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 12)
+                .text('Price');
+            
+            var xFormat = d3.format(".0f");
+            // Add the X Axis
+            svg.append("g")
+                .attr("transform", "translate(" + 70 + "," + (height+100) + ")")
+                .call(d3.axisBottom(x).tickFormat(xFormat))
+
+            // Add the Y Axis
+            svg.append("g")
+                .attr("transform", "translate(" + 70 + "," + (100) + ")")
+                .call(d3.axisLeft(y));
+
             // Add the line
+
+
+            var line = d3.line()
+                .x(function (d) { return x(d.Year); })
+                .y(function (d) { return y(d.Average); })
+                .curve(d3.curveMonotoneX)
+
             svg.append("path")
                 .datum(data)
-                .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1.5)
-                .attr("d", d3.line()
-                    .x(function (d) { return x(d.Year) })
+                .attr("class", "line")
+                .attr("transform", "translate(" + 70 + "," + 200 + ")")
+                .attr("d", line)
+                .style("fill", "none")
+                .style("stroke", "steelblue")
+                .style("stroke-width", "2");
 
-                    .y(function (d) { return y(d.Average) })
-                )
 
             // Add the points
-            svg
-                .append("g")
+
+
+            svg.append('g')
                 .selectAll("dot")
                 .data(data)
                 .enter()
                 .append("circle")
-                .attr("cx", function (d) { return x(d.Year) })
-                .attr("cy", function (d) { return y(d.Average) })
+                .attr("cx", function (d) { return x(d.Year); })
+                .attr("cy", function (d) { return y(d.Average); })
                 .attr("r", 5)
-                .attr("fill", "#69b3a2")
+                .attr("transform", "translate(" + 70 + "," + 200 + ")")
+                .style("fill", "#69b3a2");
 
-            // Add the X Axis
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
 
-            // Add the Y Axis
-            svg.append("g")
-                .call(d3.axisLeft(y));
+
         });
 };
 
@@ -107,7 +137,7 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
         });
     }
 
-    var path = d3.geoPath().projection(scale(0.85, chart_width, chart_height));
+    var path = d3.geoPath().projection(scale(1, chart_width, chart_height));
 
     var countries = [];
 
@@ -199,14 +229,14 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
                 .on("mouseover", function (d) {
                     var coordinates = [];
                     coordinates = d3.mouse(this);
-
+                    
                     d3.select("#tooltip")
                         .style("background-color", "rgb(255, 247, 188)")
                         .style("opacity", "0.8")
                         .style("left", coordinates[0] + 200 + "px")
                         .style("top", coordinates[1] - 30 + "px")
                         .style("display", "block")
-                        .html(function (a) {
+                        .html(function () {
                             var customContent = d.properties.value.state + " " + d.properties.value.county;
                             if (d.properties.value.Average == 0) {
                                 customContent += " No Data";
@@ -234,8 +264,8 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
                     })
                 )
                 .attr("d", path)
-                .attr("margin", 1)
-                .attr("stroke", "white")
+                .attr("margin", 2)
+                .attr("stroke", "grey")
                 .attr("stroke-linejoin", "round")
                 .attr("fill", "none");
 
@@ -244,7 +274,7 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
                 .data(d3.schemeGnBu[8])
                 .enter()
                 .append("rect")
-                .attr("y", 55)
+                .attr("y", 10)
                 .attr("x", function (d, i) {
                     return 650 + i * 37.5;
                 })
@@ -300,7 +330,7 @@ export const getCountiesYearMap = ({ year, mapCountiesRef }) => {
             svg
                 .append("g")
                 .attr("class", "axis")
-                .attr("transform", "translate(0, 55)")
+                .attr("transform", "translate(0, 10)")
                 .call(legendAxis);
         });
     });
