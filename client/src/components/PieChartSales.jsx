@@ -41,7 +41,6 @@ export function PieChartSales() {
   useEffect(() => {
     async function loadStateData() {
       const data = await getStateData({ state, year });
-      console.log(data);
     }
     loadStateData();
 

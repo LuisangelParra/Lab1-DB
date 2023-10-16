@@ -58,7 +58,6 @@ export const getStateChartData = ({ state, year, chartStateRef }) => {
                 .outerRadius(labelRadius);
 
             const arcs = pie(cityData);
-            console.log(arcs);
 
             const svg = d3.select(chartStateRef.current);
             svg.selectAll("*").remove();

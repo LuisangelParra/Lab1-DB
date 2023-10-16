@@ -1,6 +1,7 @@
 import {CitiesMap} from '../components/CitiesMap'
 import {CountieChart} from '../components/CountieChart';
 import {PieChartSales} from '../components/PieChartSales';
+import {MultieBarChart} from '../components/MultieBarChart';
 import '../styles/tooplate.css'
 
 
@@ -21,6 +22,9 @@ export function CitiesPage() {
                 </div>
                 <div className="grid-item">
                     <PieChartSales/>
+                </div>
+                <div className="grid-item item1">
+                    <MultieBarChart/>
                 </div>
             </div>
             <footer>
