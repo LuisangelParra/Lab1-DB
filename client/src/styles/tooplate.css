@@ -11,7 +11,8 @@ body {
 }
 
 .navbar-brand {
-  display: flex;
+  display: block;
+  width: 100%;
   align-items: center;
   background-color: #2e3e4e;
   border-radius: 8px;
@@ -19,8 +20,9 @@ body {
 }
 
 .tm-site-title {
-  align-content: center;
+  display: block;
   text-transform: uppercase;
+  text-align: center;
   font-size: 1.5rem;
   margin-left: 1rem;
   color: #ffffff;
