@@ -63,7 +63,7 @@ export function PieChartSales() {
   return (
     <div>
       <div>
-        <h1>Pie Chart</h1>
+        <h1>Sales Chart</h1>
       </div>
       <div>
         <svg ref={chartStateRef} width={600} height={600}></svg>

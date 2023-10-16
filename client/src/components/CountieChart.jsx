@@ -32,7 +32,7 @@ export function CountieChart() {
   return (
     <div>
       <div>
-        <h1>County Chart</h1>
+        <h1>County price chart</h1>
       </div>
       <div>
         <svg ref={chartCountyRef} width={600} height={600}></svg>
