@@ -19,7 +19,7 @@ body {
 }
 
 .tm-site-title {
-  display: inline-block;
+  align-content: center;
   text-transform: uppercase;
   font-size: 1.5rem;
   margin-left: 1rem;

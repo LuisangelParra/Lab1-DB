@@ -1,7 +1,8 @@
 import {CitiesMap} from '../components/CitiesMap'
 import {CountieChart} from '../components/CountieChart';
-import '../styles/tooplate.css'
 import {PieChartSales} from '../components/PieChartSales';
+import '../styles/tooplate.css'
+
 
 export function CitiesPage() {
     return (
@@ -19,7 +20,7 @@ export function CitiesPage() {
                     <CountieChart />
                 </div>
                 <div className="grid-item">
-                    TE ODIO BURRO
+                    <PieChartSales/>
                 </div>
             </div>
             <footer>&copy; 2023 - Todos los derechos reservados</footer>
